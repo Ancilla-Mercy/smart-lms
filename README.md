@@ -1,2 +1,2 @@
 # smart-lms
-Learning Management System Project
+React LMS frontend project
