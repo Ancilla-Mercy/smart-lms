@@ -1,43 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function Courses() {
-  const [courses, setCourses] = useState([
-    { id: 1, title: "React Basics", enrolled: false },
-    { id: 2, title: "Java Fundamentals", enrolled: false },
-    { id: 3, title: "Spring Boot Intro", enrolled: false },
-  ]);
 
-  const handleEnroll = (id) => {
-    const updatedCourses = courses.map((course) => {
-      if (course.id === id) {
-        return { ...course, enrolled: true };
-      }
-      return course;
-    });
+    const [courses, setCourses] = useState([]);
 
-    setCourses(updatedCourses);
-  };
+    useEffect(() => {
+        fetchCourses();
+    }, []);
 
-  return (
-    <div className="course-container">
-       <h2>Courses</h2>
-        {courses.map((course) => (
-          <div key={course.id} className="course-card">
-            <h3>{course.title}</h3>
+    const fetchCourses = async () => {
+        try {
+            const response = await axios.get("http://localhost:8080/courses");
+            setCourses(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-            {course.enrolled ? (
-              <button disabled>Enrolled</button>
-            ) : (
-              <button onClick={() => handleEnroll(course.id)}>
-                Enroll
-              </button>
-            )}
-          </div>
-        ))}
+    const handleEnroll = (id) => {
+        const updatedCourses = courses.map((course) => {
+            if (course.courseId === id) {
+                return { ...course, enrolled: true };
+            }
+            return course;
+        });
 
+        setCourses(updatedCourses);
+    };
 
-    </div>
-  );
+    return (
+        <div className="course-container">
+
+            <h2>Courses</h2>
+
+            {courses.map((course) => (
+
+                <div key={course.courseId} className="course-card">
+
+                    <h3>{course.courseName}</h3>
+
+                    <p>{course.courseDescription}</p>
+
+                    {course.enrolled ? (
+
+                        <button disabled>Enrolled</button>
+
+                    ) : (
+
+                        <button onClick={() => handleEnroll(course.courseId)}>
+                            Enroll
+                        </button>
+
+                    )}
+
+                </div>
+
+            ))}
+
+        </div>
+    );
 }
 
 export default Courses;
