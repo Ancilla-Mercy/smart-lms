@@ -9,25 +9,20 @@ function Navbar() {
   const [page, setPage] = useState("login");
 
   return (
-    <div className = "navbar">
+    <>
+<div className="navbar">  
+    <h2 className="logo">Smart LMS</h2>  <div className="nav-buttons">  
+    <button onClick={() => setPage("login")}>Login</button>  
+    <button onClick={() => setPage("register")}>Register</button>  
+    <button onClick={() => setPage("courses")}>Courses</button>  
+</div>
 
-      <button onClick={() => setPage("login")}>
-        Login
-      </button>
-
-      <button onClick={() => setPage("register")}>
-        Register
-      </button>
-
-      <button onClick={() => setPage("courses")}>
-        Courses
-      </button>
-
-      {page === "login" && <Login />}
-      {page === "register" && <Register />}
-      {page === "courses" && <Courses />}
-
-    </div>
+</div>  <div className="container">  
+    {page === "login" && <Login />}  
+    {page === "register" && <Register />}  
+    {page === "courses" && <Courses />}  
+</div>
+    </>
   );
 }
 
